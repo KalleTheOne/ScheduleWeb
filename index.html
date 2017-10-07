@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title id="title">NA17D Schema/Länkar</title>
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+  <!--Mobile!-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body onload="groupInput()">
+  <div id="topbar">
+    <ul>
+      <li class="currenttimeli">
+        <p id="time"></p>
+	    </li><li>
+        <button onclick="weekIncrease(-1)" class="sb">←</button><input size="1" id="weekbox" class="inputbox" /><button onclick="weekIncrease(1)" class="sb">→</button>
+		</li><li>
+        <button class="sb" id="smartButton" onclick="init()">smartButton^tm</button>
+		</li><li>
+        <button class="sb"><a href="" id="dllink" download="download.png">Ladda ned</a></button>
+		</li><li>
+      <button id="submitinp" onclick="groupInput()">>></button><input id="groupinp"/>
+      </li>
+</ul>
+
+</div>
+	
+<div class="linksdiv">
+<ul>
+	<a href="http://hule.harryda.se" target="_blank" class="linksdivli"><li>Hulebäcksgymnasiet</li></a>
+	<a href="http://huledu.harryda.se" target="_blank" class="linksdivli"><li>HuleDu</li></a>
+	<a href="http://skolmaten.se/hulebacksgymnasiet/" target="_blank" class="linksdivli"><li>Skolmaten</li></a>
+	<a href="https://office.com" target="_blank" class="linksdivli"><li>Office Online</li></a>
+	<a href="https://drive.google.com/drive/my-drive" target="_blank" class="linksdivli"><li>Google Drive</li></a>
+	<a href="http://www.ne.se/" target="_blank" class="linksdivli"><li>Nationalencyklopedin</li></a>
+</ul>
+<div id="ldinfo">
+  <p>Denna webbplats använder sig utav cookies.</p>
+</div>
+</div>
+
+<canvas id="myCanvas"></canvas>
+
+
+  <script>
+  var SchoolId, GroupId, Width, Height, week
+
+  function init(){
+    widthSpacing = 313
+    heightSpacing = -70
+    canvasWidthDiff = -4
+    canvasHeightDiff = -85
+
+    SchoolId = null
+    GroupId = document.cookie
+
+    Width = Math.floor(window.innerWidth-widthSpacing)
+    Height = Math.floor(window.innerHeight-heightSpacing)
+    dlWidth = 2480
+    dlHeight = Math.floor(dlWidth*1.41)
+
+    week = currentWeek()
+    setWeek(week)
+    updateTime()
+    setInterval(updateTime,1000)
+    smartBtnUpdate()
+    setInterval(smartBtnUpdate,500)
+  }
+
+  function groupInput() {
+    GroupId = document.getElementById("groupinp").value.toUpperCase();
+    if (GroupId === "NA17D" || GroupId === "NA16D" || GroupId === "NA15D" || GroupId === "NA18D" || GroupId === "NA19D") {
+      SchoolId = "82710Y"
+    }
+    else {
+      SchoolId = "82710&code=465788"
+    }
+    document.cookie = document.getElementById("groupinp").value;
+    updateSize()
+  }
+
+
+  function updateTime(){
+    var newDate = new Date()
+    var newDateArray = [newDate.getFullYear(),("0" + (newDate.getMonth()+1)).slice(-2),("0" + (newDate.getDate())).slice(-2),("0" + (newDate.getHours())).slice(-2),("0" + (newDate.getMinutes())).slice(-2)]
+    document.getElementById("time").innerHTML = newDateArray[0]+"-"+newDateArray[1]+"-"+newDateArray[2]+" "+newDateArray[3]+":"+newDateArray[4]+" v" + currentWeek()
+  }
+
+  function smartBtnUpdate(){
+    var boxWeek = document.getElementById("weekbox").value
+    if(week==boxWeek){
+      if(Width != Math.floor(window.innerWidth-widthSpacing)){
+        /*
+        document.getElementById("smartButton").setAttribute("onclick","updateSize()")
+        document.getElementById("smartButton").innerHTML = "Window size changed. Update size?"
+        */
+        updateSize()
+      }else if(currentWeek()==week){
+        document.getElementById("smartButton").setAttribute("onclick","")
+        document.getElementById("smartButton").innerHTML = "Detta är den nuvarande veckan"
+      }else{
+        document.getElementById("smartButton").setAttribute("onclick","setWeek(currentWeek())")
+        document.getElementById("smartButton").innerHTML = "Gå till nuvaranade vecka ("+currentWeek()+")"
+      }
+    }else{
+      var regex = /\d{1,2}/g
+      if(boxWeek.match(regex).length != 1){
+        document.getElementById("smartButton").setAttribute("onclick","")
+        document.getElementById("smartButton").innerHTML = boxWeek+" är ej ett veckonummer"
+      }else{
+        document.getElementById("smartButton").setAttribute("onclick","setWeek(document.getElementById('weekbox').value)")
+        document.getElementById("smartButton").innerHTML = "Gå till vecka "+boxWeek
+      }
+    }
+  }
+
+  function setWeek(value){
+    if(isNaN(value)) value = week+1
+    week = parseInt(value)
+    printImage(makeUrl(week))
+  }
+
+  function updateSize(){
+    Width = Math.floor(window.innerWidth-widthSpacing)
+    Height = Math.floor(window.innerHeight-heightSpacing)
+    printImage(makeUrl(week))
+  }
+
+  function currentWeek(){
+    var d = new Date();
+    var dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
+  }
+
+  function makeUrl(week,bigSize){
+    if(bigSize===true){
+      return "http://www.novasoftware.se/ImgGen/schedulegenerator.aspx?format=png&schoolid="+SchoolId+"/sv-se&type=-1&id="+GroupId+"&period=&week="+week+"&mode=0&printer=1&colors=32&head=0&clock=0&foot=0&day=0&width="+dlWidth+"&height="+dlHeight+"&maxwidth="+dlWidth+"&maxheight="+dlHeight
+    }else{
+      return "http://www.novasoftware.se/ImgGen/schedulegenerator.aspx?format=png&schoolid="+SchoolId+"/sv-se&type=-1&id="+GroupId+"&period=&week="+week+"&mode=0&printer=0&colors=32&head=0&clock=0&foot=0&day=0&width="+Width+"&height="+Height+"&maxwidth="+Width+"&maxheight="+Height
+    }
+  }
+
+  function weekIncrease(no){
+    week += no
+    printImage(makeUrl(week))
+  }
+
+  function printImage(url){
+    var c = document.getElementById("myCanvas");
+    c.width = Width + canvasWidthDiff
+    c.height = Height + canvasHeightDiff
+    var ctx = c.getContext("2d");
+    var img = new Image();
+    img.onload = function() {
+        ctx.drawImage(img, 0, 0);
+    };
+    img.src = url
+    document.getElementById("weekbox").value = week
+    document.getElementById("dllink").href = makeUrl(week,true)
+    var newDate = new Date()
+    smartBtnUpdate()
+    document.getElementById("title").innerHTML = GroupId+" v."+week
+  }
+
+
+  init()
+
+  </script>
+</body>
