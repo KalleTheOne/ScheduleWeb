@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
-  <title id="title">NA17D Schema/Länkar</title>
+  <title id="title">HuleSchema</title>
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="icon" type="image/gif" href="images/favicon/favicon-64.png">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
   <!--Mobile!-->
@@ -22,7 +23,7 @@
 		</li><li>
         <button class="sb"><a href="" id="dllink" download="download.png">Ladda ned</a></button>
 		</li><li>
-      <button id="submitinp" onclick="groupInput()">>></button><input id="groupinp"/>
+      <button id="submitinp" onclick="groupInput()" class="sb">>></button><input id="groupinp" onKeyDown="if(event.keyCode==13) {groupInput()};"/>
       </li>
 </ul>
 
@@ -38,7 +39,7 @@
 	<a href="http://www.ne.se/" target="_blank" class="linksdivli"><li>Nationalencyklopedin</li></a>
 </ul>
 <div id="ldinfo">
-  <p>Denna webbplats använder sig utav cookies.</p>
+  <p style="color: #3a3a3a;">Denna webbplats använder sig utav cookies.</p>
 </div>
 </div>
 
@@ -78,6 +79,7 @@
     else {
       SchoolId = "82710&code=465788"
     }
+    document.getElementById("groupinp").value = document.getElementById("groupinp").value.toUpperCase()
     document.cookie = document.getElementById("groupinp").value;
     updateSize()
   }
@@ -164,7 +166,7 @@
     document.getElementById("dllink").href = makeUrl(week,true)
     var newDate = new Date()
     smartBtnUpdate()
-    document.getElementById("title").innerHTML = GroupId+" v."+week
+    document.getElementById("title").innerHTML = "HuleSchema" +" v."+week
   }
 
 

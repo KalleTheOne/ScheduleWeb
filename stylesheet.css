@@ -50,8 +50,10 @@ html, body {
 #groupinp {
 	background-color: #ffffff;
 	width: 90px;
+	font-family: Roboto;
 	float: right;
 	border: none;
+	font-size: 16px;
 	padding: 10px;
 	border-radius: 5px 0px 0px 5px;
 }
@@ -123,6 +125,7 @@ html, body {
     cursor: pointer;
 	border-radius: 3px;
 	transition-duration: 0.4s;
+	font-family: Roboto;
 }
 .sb:hover {
 	background-color: #808080;
