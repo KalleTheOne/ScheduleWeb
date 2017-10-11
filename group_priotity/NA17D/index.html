@@ -11,7 +11,7 @@
 
 </head>
 
-<body onload="groupInput()">
+<body>
   <div id="topbar">
     <ul>
       <li class="currenttimeli">
@@ -56,8 +56,8 @@
     canvasWidthDiff = -4
     canvasHeightDiff = -85
 
-    SchoolId = null
-    GroupId = document.cookie
+    SchoolId = "82710Y"
+    GroupId = "NA17D"
 
     Width = Math.floor(window.innerWidth-widthSpacing)
     Height = Math.floor(window.innerHeight-heightSpacing)
@@ -81,7 +81,6 @@
       SchoolId = "82710&code=465788"
     }
     document.getElementById("groupinp").value = document.getElementById("groupinp").value.toUpperCase()
-    document.cookie = document.getElementById("groupinp").value;
     updateSize()
   }
 
