@@ -1,5 +1,5 @@
 /*http://ianlunn.github.io/Hover/ - Coola effecter*/
-/*START OF UNIVERSAL DESIGN*/
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 html, body {
     margin: 0;
@@ -7,18 +7,7 @@ html, body {
 	height: 100%;
 	min-height: 100%;
 	font-family: Roboto;
-	color: white;
 }
-
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-	outline-width: 0px;
-}
-
-/*End of universal design*/
-/*START OF TOPBAR*/
 
 #topbar {
 	padding-bottom: 20px;
@@ -36,6 +25,7 @@ button:focus {
 	padding: 0;
 	margin: 0;
 }
+
 #topbar li:not(#mobileMenu) {
 	margin: 0;
 	display: inline;
@@ -67,23 +57,59 @@ button:focus {
 	padding: 10px;
 	border-radius: 5px 0px 0px 5px;
 }
-#groupinp,
-#weekbox {
-	-webkit-transition: background-color 0.5s ease-out;
-	-moz-transition: background-color 0.5s ease-out;
-	-o-transition: background-color 0.5s ease-out;
-	transition: background-color 0.5s ease-out;
-}
-#groupinp:hover,
-#weekbox:hover {
-	background-color: #efefef;
-}
 #submitinp {
 	float: right;
 	margin-right: 40px;
 	padding: 10px;
 	border-radius: 0px 5px 5px 0px;
 	border: none;
+}
+
+.linksdiv {
+	padding: 0px;
+	position: relative;
+	min-height: 100%;
+	/*min-width: 200px;*/
+	margin: 0;
+	float: right;
+	height: 100%;
+	width: 300px;
+	overflow: hidden;
+	background-color: #4c4c4c;
+}
+#ldinfo {
+	padding-left: 20px;
+	padding-right: 10px;
+	width: 100%;
+	bottom: 0;
+	position: absolute;
+}
+
+.linksdiv ul {
+	padding: 0px;
+	margin: 0px;
+	
+}
+
+.linksdivli:hover {
+	background-color: #666666;
+}
+
+.linksdivli {
+	color: white;
+	list-style-type: none;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 30px;
+	display: block;
+}
+
+.linksdiv a {
+	color: white;
+	text-decoration: none;
+	font-family: roboto;
+	display: block;
+	
 }
 
 .sb {
@@ -104,7 +130,9 @@ button:focus {
 .sb:hover {
 	background-color: #808080;
 }
-
+button:focus {
+	outline:0;
+}
 .inputbox {
 	background-color: #ffffff;
 	border: none;
@@ -124,86 +152,44 @@ button:focus {
 
 }
 
-/*END OF TOPBAR*/
-/*START OF LINKSDIV*/
+#myCanvas {
+	margin: auto;
+}
 
-.linksdiv {
-	padding: 0px;
-	position: relative;
-	min-height: 100%;
-	/*min-width: 200px;*/
-	margin: 0;
-	float: right;
-	height: 100%;
-	width: 300px;
-	overflow: hidden;
-	background-color: #4c4c4c;
-}
-.linksdiv ul {
-	padding: 0px;
-	margin: 0px;
-	
-}
-.linksdivli:hover {
-	background-color: #666666;
-}
-.linksdivli {
-	color: white;
-	list-style-type: none;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	padding-left: 30px;
-	display: block;
-}
-.linksdiv a {
-	color: white;
-	text-decoration: none;
-	font-family: roboto;
-	display: block;
-	
-}
-#ldinfo {
-	padding-left: 20px;
-	padding-right: 10px;
-	width: 100%;
-	bottom: 0;
-	position: absolute;
-	background-color: #474747;
-}
-/*END OF LINKSDIV*/
-/*START OF INFOBOX*/
 
-#infoBox {
-	position: absolute;
-	z-index: 100;
-	top: 200px;
-	left: 0; 
-	right: 0; 
-	margin-left: auto; 
-	margin-right: auto; 
+
+
+/*Device: Mobile (Less than 620px wide)*/
+@media only screen and (max-width:620px) {
+	.linksdiv {
 	display: none;
-	background-color: white;
-	width: 75%;
-	height: 600px;
-	border-radius: 25px;
+	z-index: -5;
 }
-/*END OF INFOBOX*/
-/*START OF SCHEMA*/
-#Schema {
-	position: relative;
-	height: 100%;
-	width: calc(100% - 300px);
-	background-color: black;
-	padding: 0;
-	margin: 0;
+	#topbar {
+    overflow: scroll;
+	white-space: nowrap;
 }
-
-/*In case of window resize, making topbar to not bug.*/
-@media only screen and (max-width:953px) {
-	#dlbutton,
-	#smartButton {
+	#topbar li {
+	display: inline;
+	padding-right: 5px;
+	padding-left: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	white-space: nowrap;
+	}
+	#topbar li p {
+	display: none;
+	white-space: nowrap;
+	}
+	#time {
+		visibility: hidden;
 		display: none;
-	
+	}
+	.currenttimeli  {
 		display: none;
+		visibility: hidden;
+	}
+	#mobileMenu {
+		display: inline;
 	}
 }
