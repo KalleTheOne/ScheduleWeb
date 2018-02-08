@@ -52,9 +52,12 @@ function changeGroup() {
 
     if (GroupId == "NA17D" || GroupId == "NA16D" || GroupId == "NA15D" || GroupId == "NA18D" || GroupId == "NA19D") {
         SchoolId = "82710Y"
+        document.getElementById("newSchema").style.display = "none";
     }
     else {
-        SchoolId = "82710&code=465788"
+        //SchoolId = "82710&code=465788"
+        document.getElementById("newSchema").style.display = "inline";
+        document.getElementById('newSchema').src = "https://web.skola24.se/timetable/timetable-viewer/harryda.skola24.se/Huleb%C3%A4cksgymnasiet/signatures/" + GroupId;
     }
 
     document.getElementById("groupinp").value = GroupId

@@ -23,7 +23,7 @@
     <li>
         <button onclick="weekDiff(-1)" class="sb" style="border-radius: 3px 0px 0px 3px;">←</button><input size="1" id="weekbox" class="inputbox" /><button onclick="weekDiff(1)" class="sb" style="border-radius: 0px 3px 3px 0px;">→</button>
 		</li><li>
-        <button class="sb" id="smartButton" onclick="gotoCurrentWeek()">Error</button>
+        <button class="sb" id="smartButton" onclick="gotoCurrentWeek()">Laddar...</button>
 		</li><li>
       <button id="submitinp" onclick="changeGroup()" class="sb">>></button><input id="groupinp" onKeyDown="if(event.keyCode==13) {changeGroup()};"/>
       </li>
@@ -41,15 +41,16 @@
   <a href="http://www.ne.se/" target="_blank" class="linksdivli"><li>Nationalencyklopedin</li></a>
   <a href="https://teams.microsoft.com/" target="_blank" class="linksdivli"><li>Teams</li></a>
 </ul>
+<!--
 <div id="ldinfo" onclick="infoBox()">
   <p>Information</p>
+</div>-->
 </div>
-</div>
-
+<!--
 <div id="infoBox">
   <img src="images/clear.png" style="margin: 10px; float: right;" onclick="HIDEinfoBox()"/>
 </div>
-
-  <div id=Schema></div>
+-->
+  <div id=Schema><iframe src="https://web.skola24.se/timetable/timetable-viewer/harryda.skola24.se/Huleb%C3%A4cksgymnasiet/" id ="newSchema"></iframe></div>
 
 </body>
