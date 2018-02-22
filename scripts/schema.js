@@ -4,25 +4,35 @@ multitester = test + test2
 
 var GroupId, SchoolId, width, height, week
 
-
+//Called when page loads
 function init() {
     GroupId = null
-    SchoolId = "82710&code=465788"
-    document.getElementById("groupinp").value = GroupId
+    SchoolId = "82710Y"
 
+    //Checks if cookie exist. Then edits groupid to cookie (and groupinp) then calls changeGroup.
+    if (document.cookie != "") {
+        GroupId = document.cookie
+        document.getElementById("groupinp").value = GroupId
+        changeGroup()
+    }
+
+    //Width and height
     width = Math.floor(document.getElementById("Schema").clientWidth + 5)
     height = window.innerHeight
 
+    //Checks week and changes weekbox value to current week.
     week = currentWeek()
     weekbox.value = week
     if (week == currentWeek()) {
         document.getElementById("smartButton").innerHTML = "Detta är den nuvarande veckan"
     }
 
+    //Changes title (in browser tab)
     document.getElementsByTagName("TITLE")[0].text = "HuleSchema v." + week
     genSchema()
 }
 
+//Generates image link to load Schema
 function genSchema() {
     document.getElementById("Schema").style.backgroundImage = "url('http://www.novasoftware.se/ImgGen/schedulegenerator.aspx?format=png&schoolid=" + SchoolId + "/sv-se&type=-1&id=" + GroupId + "&period=&week=" + week + "&mode=0&printer=0&colors=32&head=0&clock=0&foot=0&day=0&width=" + width + "&height=" + height + "&maxwidth=4000&maxheight=4000')"
 }
@@ -59,6 +69,8 @@ function changeGroup() {
         document.getElementById("newSchema").style.display = "inline";
         document.getElementById('newSchema').src = "https://web.skola24.se/timetable/timetable-viewer/harryda.skola24.se/Huleb%C3%A4cksgymnasiet/signatures/" + GroupId;
     }
+
+    document.cookie = GroupId
 
     document.getElementById("groupinp").value = GroupId
     genSchema()

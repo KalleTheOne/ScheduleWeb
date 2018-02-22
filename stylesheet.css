@@ -21,8 +21,8 @@ button:focus {
 /*START OF TOPBAR*/
 
 #topbar {
-	padding-bottom: 20px;
-	padding-top: 20px;
+	padding-bottom: 10px;
+	padding-top: 10px;
 	position: relative;
 	width: auto;
 	list-style-type: none;
