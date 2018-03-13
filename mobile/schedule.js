@@ -2,14 +2,15 @@ var test
 test = 4
 
 var error = 0
-var SchoolId, GroupId, day, pageWidth, week, pageHeight
+var SchoolId, GroupId, day, pageWidth, week, pageHeight, nDay
 
 function init() {
 
     SchoolId = "82710Y"
     GroupId = "NA17D"
     day = 1
-    week = 4
+    nDay = 1
+    week = currentWeek()
     pageWidth = innerWidth
     pageHeight = Math.floor(innerWidth * 1.41)
 
@@ -31,24 +32,33 @@ function updateSize(){
   }
 
 function dayIncrease(value) {
-    if (value == 0) {
+     
+    nDay = value + nDay
+
+    if (nDay == 0) {
         day = 18
         week = week - 1
+        nDay = 5
     }
-    if (value == 1) {
+    if (nDay == 1) {
         day = 1
     }
-    if (value == 2) {
+    if (nDay == 2) {
         day = 2
     }
-    if (value == 3) {
+    if (nDay == 3) {
         day = 4
     }
-    if (value == 4) {
+    if (nDay == 4) {
         day = 8
     }
-    if (value == 5) {
+    if (nDay == 5) {
         day = 16
+    }
+    if (nDay == 6) {
+        day = 1
+        week = week + 1
+        nDay = 1
     }
     else {
         error = 1

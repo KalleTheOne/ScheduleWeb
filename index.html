@@ -12,13 +12,12 @@
   <!--Scripts-->
   <script src="scripts/assets.js"></script>
   <script src="scripts/multitest.js"></script>
-  <script src="scripts/schema.js"></script>
   <!--<script src="scripts/urlGen.js"></script>-->
   
 
 </head>
 
-<body onload="init()" onresize="detectResize()">
+<body>
   <div id="topbar">
     <ul>
     <li>
@@ -52,6 +51,6 @@
   <img src="images/clear.png" style="margin: 10px; float: right;" onclick="HIDEinfoBox()"/>
 </div>
 -->
-  <div id=Schema><iframe src="https://web.skola24.se/timetable/timetable-viewer/harryda.skola24.se/Huleb%C3%A4cksgymnasiet/" id ="newSchema"></iframe></div>
-
+  <canvas id="schema" width="1000px" height="1000px"></canvas>
+  <script src="scripts/schema.js"></script>
 </body>
