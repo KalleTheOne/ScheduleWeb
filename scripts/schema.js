@@ -1,8 +1,30 @@
-var GroupId, width, height, week, school
+var test = "Test not defined"
+
+// Gradients: https://uigradients.com/#Forest
+
+var GroupId, width, height, week, school, standardGroup;
+
 var SchoolId = {name:"Hulebäcksgymnasiet", guid:"219254f7-917c-472e-ac23-6982156c6164"}
 school = "hule"
-GroupId = "NA17B"
+GroupId = "NA17A"
+standardGroup = document.cookie;
+if (standardGroup != "") {
+    GroupId = standardGroup;
+}
+document.getElementById("groupinp").value = GroupId.toUpperCase();
 
+if (GroupId == "NA17D" || GroupId == "NA16D" || GroupId == "NA15D" || GroupId == "NA18D" || GroupId == "NA19D") {
+    //Tvär
+    SchoolId.name = "Hulebäcksgymnasiet Na-tvär"
+    SchoolId.guid = "3486fa73-d068-4593-88a2-c7155c2df138"
+    school = "tvar"
+}
+else {
+    //Resten
+    SchoolId.name = "Hulebäcksgymnasiet"
+    SchoolId.guid = "219254f7-917c-472e-ac23-6982156c6164"
+    school = "hule"
+}
 
 week = currentWeek()
 weekbox.value = week
@@ -40,8 +62,6 @@ function changeGroup() {
         school = "hule"
     }
 
-    document.cookie = GroupId
-
     document.getElementById("groupinp").value = GroupId
     genSchema()
 }
@@ -52,99 +72,131 @@ function gotoCurrentWeek() {
     genSchema()
 }
 
+function setStandardgroup() {
+    standardGroup = document.getElementById("standardGroupinp").value.toUpperCase();
+    document.getElementById("standardGroupinp").value = standardGroup;
+    document.cookie = standardGroup;
+}
+
 genSchema()
 
 function genSchema() {
-var xhr = new XMLHttpRequest();
-var url = "https://web.skola24.se/timetable/timetable-viewer/data/render"
-xhr.open("POST", url, false);
-xhr.setRequestHeader("Content-type", "application/json");
-
-var data = JSON.stringify({
-"divWidth": Math.floor(innerWidth - 315),
-"divHeight": innerHeight,
-"headerEnabled":false,
-"selectedPeriod":null,
-"selectedWeek": week,
-"selectedTeacher":null,
-"selectedGroup":null,
-"selectedClass":null,
-"selectedRoom":null,
-"selectedStudent":null,
-"selectedCourse":null,
-"selectedSubject":null,
-"selectedSchool": {"name":SchoolId.name,"guid":SchoolId.guid,"settings":{"activateViewer":true}},
-"selectedSignatures":{"signature":GroupId},"domain":"harryda.skola24.se"});
-
-document.getElementById("schema").width = Math.floor(innerWidth - 320);
-document.getElementById("schema").height = innerHeight;
-
-xhr.send(data);
-var json = JSON.parse(xhr.responseText);
-//var stringJSON = JSON.stringify(json)
-//console.log(json);
-
-var imgData = json
-var c = document.getElementById("schema");
-var ctx = c.getContext("2d");
-
-for (var i = 0; i < imgData.data.boxList.length; i++) {
-    var x, y, width, height, fcolor, bcolor;
-
-    x = imgData.data.boxList[i].x;
-    y = imgData.data.boxList[i].y;
-    width = imgData.data.boxList[i].width;
-    height = imgData.data.boxList[i].height;
-    fcolor = imgData.data.boxList[i].fcolor;
-    bcolor = imgData.data.boxList[i].bcolor;
-    type = imgData.data.boxList[i].type;
-    id = imgData.data.boxList[i].id;
-
-    /*
-    var gradient=ctx.createLinearGradient(0,0,170,0);
-    gradient.addColorStop("0","magenta");
-    gradient.addColorStop("0.5","blue");
-    gradient.addColorStop("1.0","red");
-    ctx.strokeStyle=gradient;
-    */
-
-    ctx.fillStyle = fcolor;
-    ctx.fillStyle = bcolor;
-    if (id != 2) {
-    if (type != 3) {ctx.stroke()}
-    ctx.rect(x, y, width, height);
-    ctx.fillRect(x, y, width, height);
-    ctx.lineWidth=1;
+    //Uses stored image
+    if (localStorage.getItem("image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth) != null) {
+        for (i = -5; i <= 10; i++) {
+            if (localStorage.key(i) == "image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth) {
+                document.getElementById("imagetest").src = localStorage.getItem("image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth);
+            }
+        }
     }
-}
+    else {
+        document.getElementById("loading").style.display = "initial";
 
-// Om i är mindre än antalet datainlägg, i adderas då med 1 och koden utförs
-    for (var i = 0; i < imgData.data.textList.length; i++) {
-    //Förklara variablar med bild egenskaper
-    var x, y, width, height, text, fontsize, fcolor;
+        //Requesting data --------
+        var xhr = new XMLHttpRequest();
+        var url = "https://cors-anywhere.herokuapp.com/https://web.skola24.se/timetable/timetable-viewer/data/render"
 
-    //Sparar data i variablarna
-    x = imgData.data.textList[i].x;
-    y = imgData.data.textList[i].y + 10;
-    width = imgData.data.textList[i].width;
-    height = imgData.data.textList[i].height;
-    text = imgData.data.textList[i].text;
-    fontsize = imgData.data.textList[i].fontsize;
-    fcolor = imgData.data.textList[i].fcolor;
-    id = imgData.data.textList[i].id;
-    bold = imgData.data.textList[i].bold;
+        if ("withCredentials" in xhr) { test = "With credentials"}
 
-    if (school == "hule") {
-        if (i == 54 || i == 55 || i == 56 || i == 57 || i == 58) {y += 8}
-}
-    if (school == "tvar") {
-        if (i == 58 || i == 59 || i == 60 || i == 61 || i == 62) {y += 8}
-}
+        xhr.open("POST", url, false);
+        xhr.setRequestHeader("Content-type", "application/json");
 
-    //Kod som genererar schema
-    ctx.font = fontsize + "px Times new roman";
-    ctx.fillStyle = fcolor;
-    ctx.fillText(text, x ,y);
-}
+        var data = JSON.stringify({
+            "divWidth": Math.floor(innerWidth - 300),
+            "divHeight": innerHeight,
+            "headerEnabled":false,
+            "selectedPeriod":null,
+            "selectedWeek": week,
+            "selectedTeacher":null,
+            "selectedGroup":null,
+            "selectedClass":null,
+            "selectedRoom":null,
+            "selectedStudent":null,
+            "selectedCourse":null,
+            "selectedSubject":null,
+            "selectedSchool": {"name":SchoolId.name,"guid":SchoolId.guid,"settings":{"activateViewer":true}},
+            "selectedSignatures":{"signature":GroupId},"domain":"harryda.skola24.se"});
+
+        xhr.send(data);
+
+        var json = JSON.parse(xhr.responseText);
+
+        var imgData = json;
+
+        //Creating a canvas
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.floor(innerWidth - 300);
+        canvas.height = Math.floor(innerHeight - 70);
+
+        // Get the drawing context
+        var ctx = canvas.getContext('2d');
+
+        //Render image ---------
+        for (var i = 0; i < imgData.data.boxList.length; i++) {
+            var x, y, width, height, fcolor, bcolor;
+
+            x = imgData.data.boxList[i].x;
+            y = imgData.data.boxList[i].y;
+            width = imgData.data.boxList[i].width;
+            height = imgData.data.boxList[i].height;
+            fcolor = imgData.data.boxList[i].fcolor;
+            bcolor = imgData.data.boxList[i].bcolor;
+            type = imgData.data.boxList[i].type;
+            id = imgData.data.boxList[i].id;
+
+            /* (For your rainbow needs...)
+            var gradient=ctx.createLinearGradient(0,0,170,0);
+            gradient.addColorStop("0","magenta");
+            gradient.addColorStop("0.5","blue");
+            gradient.addColorStop("1.0","red");
+            ctx.strokeStyle=gradient;
+            */
+
+            ctx.fillStyle = fcolor;
+            ctx.fillStyle = bcolor;
+            if (id) {
+                if (type != 3) {ctx.stroke()}
+                ctx.rect(x, y, width, height);
+                ctx.fillRect(x, y, width, height);
+                ctx.lineWidth = 1;
+            }
+        }
+
+        for (var i = 0; i < imgData.data.textList.length; i++) {
+            var x, y, width, height, text, fontsize, fcolor;
+
+            //Getting content from textlist, adding to variables.
+            x = imgData.data.textList[i].x;
+            y = imgData.data.textList[i].y + 10;
+            width = imgData.data.textList[i].width;
+            height = imgData.data.textList[i].height;
+            text = imgData.data.textList[i].text;
+            fontsize = imgData.data.textList[i].fontsize;
+            fcolor = imgData.data.textList[i].fcolor;
+            id = imgData.data.textList[i].id;
+            bold = imgData.data.textList[i].bold;
+
+            //Wierd bug "fix" from Skola24.
+            if (school == "hule") {
+                if (i == 54 || i == 55 || i == 56 || i == 57 || i == 58) {y += 8}
+            }
+            if (school == "tvar") {
+                if (i == 58 || i == 59 || i == 60 || i == 61 || i == 62) {y += 8}
+            }
+            //Adds content to canvas
+            ctx.font = fontsize + "px Times new roman";
+            ctx.fillStyle = fcolor;
+            ctx.fillText(text, x ,y);
+        }
+
+        //Transforming canvas to image (For caching)
+        var dataURL = canvas.toDataURL();
+        document.getElementById('imagetest').src = dataURL;
+
+        if (week >= currentWeek() - 1 && week <= currentWeek() + 6 && GroupId == standardGroup) {
+            localStorage.setItem("image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth, dataURL);
+        }
+        document.getElementById("loading").style.display = "none";
+    }
 }
 //Width/Height ratio: 0.77

@@ -57,33 +57,43 @@ button:focus {
 		margin: 0;
 		display: inline;
 }
-#groupinp {
-	background-color: #ffffff;
-	width: 90px;
-	font-family: Roboto;
-	float: right;
-	border: none;
-	font-size: 16px;
-	padding: 10px;
-	border-radius: 5px 0px 0px 5px;
-}
-#groupinp,
-#weekbox {
-	-webkit-transition: background-color 0.5s ease-out;
-	-moz-transition: background-color 0.5s ease-out;
-	-o-transition: background-color 0.5s ease-out;
-	transition: background-color 0.5s ease-out;
-}
-#groupinp:hover,
-#weekbox:hover {
-	background-color: #efefef;
-}
+
 #submitinp {
 	float: right;
 	margin-right: 40px;
 	padding: 10px;
 	border-radius: 0px 5px 5px 0px;
 	border: none;
+}
+#groupinp {
+	width: 90px;
+	float: right;
+	border-radius: 5px 0px 0px 5px;
+}
+#weekbox {
+    color: #000000;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    cursor: pointer;
+}
+.inputbox {
+	background-color: #ffffff;
+	font-family: Roboto;
+	border: none;
+	font-size: 16px;
+	padding: 10px;
+	transition-duration: 0.4s;
+	
+	-webkit-transition: background-color 0.5s ease-out;
+	-moz-transition: background-color 0.5s ease-out;
+	-o-transition: background-color 0.5s ease-out;
+	transition: background-color 0.5s ease-out;
+}
+.inputbox:hover {
+	background-color: #dddddd;
 }
 
 .sb {
@@ -105,41 +115,21 @@ button:focus {
 	background-color: #808080;
 }
 
-.inputbox {
-	background-color: #ffffff;
-	border: none;
-    color: #000000;
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 0;
-    cursor: pointer;
-	transition-duration: 0.4s;
-	font-family: Roboto;
-}
-#time {
-	display: block;
-
-}
-
 /*END OF TOPBAR*/
 /*START OF LINKSDIV*/
 
-.linksdiv {
+#linksdiv {
 	padding: 0px;
 	position: relative;
-	min-height: 100%;
 	/*min-width: 200px;*/
 	margin: 0;
 	float: right;
-	height: 100%;
+	height: Calc(100% - 62px);
 	width: 300px;
 	overflow: hidden;
 	background-color: #4c4c4c;
 }
-.linksdiv ul {
+#linksdivul {
 	padding: 0px;
 	margin: 0px;
 	
@@ -155,48 +145,49 @@ button:focus {
 	padding-left: 30px;
 	display: block;
 }
-.linksdiv a {
+#linksdivul a {
 	color: white;
 	text-decoration: none;
 	font-family: roboto;
 	display: block;
 	
 }
-#ldinfo {
+#settingsButton {
 	padding-left: 20px;
 	padding-right: 10px;
 	width: 100%;
-	bottom: 0;
+	bottom: 0px;
 	position: absolute;
 	background-color: #474747;
 }
 /*END OF LINKSDIV*/
-/*START OF INFOBOX*/
-
-#infoBox {
-	position: absolute;
-	z-index: 100;
-	top: 200px;
-	left: 0; 
-	right: 0; 
-	margin-left: auto; 
-	margin-right: auto; 
+/*START OF SETTINGS*/
+#settingsMenu {
 	display: none;
-	background-color: white;
-	width: 75%;
-	height: 600px;
-	border-radius: 25px;
+	padding: 0px;
+	margin: 0px;
 }
-/*END OF INFOBOX*/
-/*START OF SCHEMA*/
-
-/*END OF SCHEMA*/
-/*In case of window resize, making topbar to not bug.*/
-@media only screen and (max-width:953px) {
-	#dlbutton,
-	#smartButton {
-		display: none;
-	
-		display: none;
-	}
+#settingsMenu li {
+	color: white;
+	list-style-type: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 15px;
+	display: block;
 }
+#settingsMenu a, p {
+	color: white;
+	text-decoration: none;
+	font-family: roboto;
+	display: block;
+}
+#standardGroupinp  {
+	width: 90px;
+	border-radius: 5px 0px 0px 5px;
+}
+#standardsubmitGroupinp {
+	padding: 10px;
+	border-radius: 0px 5px 5px 0px;
+	border: none;
+}
+/*END OF SETTINGS*/

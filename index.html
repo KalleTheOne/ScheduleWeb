@@ -2,55 +2,64 @@
 <head>
   <meta charset="UTF-8">
   <title id="title">HuleSchema</title>
+  <!--Calling icon, fonts and stylesheets-->
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
   <link rel="icon" type="image/gif" href="images/favicon/favicon-64.png">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!--Mobile!-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!--Scripts-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="scripts/assets.js"></script>
-  <script src="scripts/multitest.js"></script>
   <!--<script src="scripts/urlGen.js"></script>-->
   
 
 </head>
 
-<body>
+<body onresize="genSchema(1)">
   <div id="topbar">
     <ul>
     <li>
         <button onclick="weekDiff(-1)" class="sb" style="border-radius: 3px 0px 0px 3px;">←</button><input size="1" id="weekbox" class="inputbox" /><button onclick="weekDiff(1)" class="sb" style="border-radius: 0px 3px 3px 0px;">→</button>
 		</li><li>
-        <button class="sb" id="smartButton" onclick="gotoCurrentWeek()">Laddar...</button>
-		</li><li>
-      <button id="submitinp" onclick="changeGroup()" class="sb">>></button><input id="groupinp" onKeyDown="if(event.keyCode==13) {changeGroup()};"/>
+        <button class="sb" id="smartButton" onclick="gotoCurrentWeek()" style="width: 250px;">Laddar...</button>
+    </li>
+    <li id="loading" style="display: none;"><i class="fa fa-refresh fa-spin" style="font-size:20px"></i><p style="padding-left: 10px;">Laddar...</p></li>
+    <li>
+      <button id="submitinp" onclick="changeGroup()" class="sb">>></button><input placeholder="Klass" class="inputbox" id="groupinp" onKeyDown="if(event.keyCode==13) {changeGroup()};"/>
       </li>
 </ul>
 
 </div>
 	
-<div class="linksdiv">
-<ul>
-	<a href="http://hule.harryda.se" target="_blank" class="linksdivli"><li>Hulebäcksgymnasiet</li></a>
-	<a href="http://huledu.harryda.se" target="_blank" class="linksdivli"><li>HuleDu</li></a>
-	<a href="http://skolmaten.se/hulebacksgymnasiet/" target="_blank" class="linksdivli"><li>Skolmaten</li></a>
-	<a href="https://office.com" target="_blank" class="linksdivli"><li>Office Online</li></a>
-	<a href="https://drive.google.com/drive/my-drive" target="_blank" class="linksdivli"><li>Google Drive</li></a>
-  <a href="http://www.ne.se/" target="_blank" class="linksdivli"><li>Nationalencyklopedin</li></a>
-  <a href="https://teams.microsoft.com/" target="_blank" class="linksdivli"><li>Teams</li></a>
-</ul>
-<!--
-<div id="ldinfo" onclick="infoBox()">
-  <p>Information</p>
-</div>-->
+<div id="linksdiv">
+  <ul id="linksdivul">
+  	<a href="http://hule.harryda.se" target="_blank" class="linksdivli"><li>Hulebäcksgymnasiet</li></a>
+  	<a href="http://huledu.harryda.se" target="_blank" class="linksdivli"><li>HuleDu</li></a>
+  	<a href="http://skolmaten.se/hulebacksgymnasiet/" target="_blank" class="linksdivli"><li>Skolmaten</li></a>
+  	<a href="https://office.com" target="_blank" class="linksdivli"><li>Office Online</li></a>
+  	<a href="https://drive.google.com/drive/my-drive" target="_blank" class="linksdivli"><li>Google Drive</li></a>
+    <a href="http://www.ne.se/" target="_blank" class="linksdivli"><li>Nationalencyklopedin</li></a>
+    <a href="https://teams.microsoft.com/" target="_blank" class="linksdivli"><li>Teams</li></a>
+  </ul>
+
+  <div id="settingsButton" onclick="settingsActivate()">
+    <p id="settingsButtonP">Inställningar</p>
+  </div>
+
+  <ul id="settingsMenu">
+    <li><p style="font-size: 30px; margin: 0px;">Inställningar</p></li>
+    <li><p style="margin: 0px; padding-bottom: 5px;">Standard klass</p><input placeholder="Tom" id="standardGroupinp" class="inputbox" onKeyDown="if(event.keyCode==13) {setStandardgroup()};"/><button id="standardsubmitGroupinp" class="sb" onclick="setStandardgroup()">>></button></li>
+    <li><button onclick="localStorage.clear()" class="sb">Rensa förladdade scheman</button></li>
+  </ul>
+
 </div>
-<!--
-<div id="infoBox">
-  <img src="images/clear.png" style="margin: 10px; float: right;" onclick="HIDEinfoBox()"/>
-</div>
--->
-  <canvas id="schema" width="1000px" height="1000px"></canvas>
+
+  <!--<canvas id="schema" width="1000px" height="1000px"></canvas>-->
+  <img src="" id="imagetest" style="z-index: 100;"/>
   <script src="scripts/schema.js"></script>
+  <script src="scripts/settings.js"></script>  
 </body>
