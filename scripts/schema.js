@@ -85,7 +85,7 @@ function genSchema() {
     if (localStorage.getItem("image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth) != null) {
         for (i = -5; i <= 10; i++) {
             if (localStorage.key(i) == "image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth) {
-                document.getElementById("imagetest").src = localStorage.getItem("image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth);
+                document.getElementById("schema").src = localStorage.getItem("image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth);
             }
         }
     }
@@ -143,23 +143,13 @@ function genSchema() {
             bcolor = imgData.data.boxList[i].bcolor;
             type = imgData.data.boxList[i].type;
             id = imgData.data.boxList[i].id;
-
-            /* (For your rainbow needs...)
-            var gradient=ctx.createLinearGradient(0,0,170,0);
-            gradient.addColorStop("0","magenta");
-            gradient.addColorStop("0.5","blue");
-            gradient.addColorStop("1.0","red");
-            ctx.strokeStyle=gradient;
-            */
-
-            ctx.fillStyle = fcolor;
-            ctx.fillStyle = bcolor;
-            if (id) {
-                if (type != 3) {ctx.stroke()}
-                ctx.rect(x, y, width, height);
-                ctx.fillRect(x, y, width, height);
-                ctx.lineWidth = 1;
+            
+            if (type != 3) {
+                ctx.fillStyle = "#000000"
+                ctx.fillRect(x-1, y-1, width+1+1, height+1+1)
             }
+            ctx.fillStyle = bcolor
+            ctx.fillRect(x, y, width, height)
         }
 
         for (var i = 0; i < imgData.data.textList.length; i++) {
@@ -167,7 +157,7 @@ function genSchema() {
 
             //Getting content from textlist, adding to variables.
             x = imgData.data.textList[i].x;
-            y = imgData.data.textList[i].y + 10;
+            y = imgData.data.textList[i].y;
             width = imgData.data.textList[i].width;
             height = imgData.data.textList[i].height;
             text = imgData.data.textList[i].text;
@@ -176,22 +166,16 @@ function genSchema() {
             id = imgData.data.textList[i].id;
             bold = imgData.data.textList[i].bold;
 
-            //Wierd bug "fix" from Skola24.
-            if (school == "hule") {
-                if (i == 54 || i == 55 || i == 56 || i == 57 || i == 58) {y += 8}
-            }
-            if (school == "tvar") {
-                if (i == 58 || i == 59 || i == 60 || i == 61 || i == 62) {y += 8}
-            }
             //Adds content to canvas
             ctx.font = fontsize + "px Times new roman";
+            ctx.textBaseline = "top";
             ctx.fillStyle = fcolor;
             ctx.fillText(text, x ,y);
         }
 
         //Transforming canvas to image (For caching)
         var dataURL = canvas.toDataURL();
-        document.getElementById('imagetest').src = dataURL;
+        document.getElementById('schema').src = dataURL;
 
         if (week >= currentWeek() - 1 && week <= currentWeek() + 6 && GroupId == standardGroup) {
             localStorage.setItem("image" + "," + + week + "," + GroupId + "," + innerHeight + "," + innerWidth, dataURL);

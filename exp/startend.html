@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title id="title">HuleSchema</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+  <link rel="icon" type="image/gif" href="../images/favicon/favicon-64.png">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+  <!--Mobile!-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--Scripts-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../scripts/assets.js"></script>
+  <!--<script src="scripts/urlGen.js"></script>-->
+  
+
+</head>
+<body>
+  <canvas id="schema" width="1000px" height="1000px"></canvas>
+
+
+
+
+<script>
+      var test = "Test not defined"
+
+// Gradients: https://uigradients.com/#Forest
+
+var GroupId, width, height, week, school
+var SchoolId = {name:"Hulebäcksgymnasiet", guid:"219254f7-917c-472e-ac23-6982156c6164"}
+school = "hule"
+GroupId = "NA17A"
+
+genSchema()
+
+function genSchema() {
+//Requesting data --------
+var xhr = new XMLHttpRequest();
+var url = "https://cors-anywhere.herokuapp.com/https://web.skola24.se/timetable/timetable-viewer/data/render"
+
+if ("withCredentials" in xhr) { test = "With credentials"}
+
+xhr.open("POST", url, false);
+xhr.setRequestHeader("Content-type", "application/json");
+
+var data = JSON.stringify({
+"divWidth": 1000,
+"divHeight": 1000,
+"headerEnabled":false,
+"selectedPeriod":null,
+"selectedWeek": 15,
+"selectedTeacher":null,
+"selectedGroup":null,
+"selectedClass":null,
+"selectedRoom":null,
+"selectedStudent":null,
+"selectedCourse":null,
+"selectedSubject":null,
+"selectedSchool": {"name":"Hulebäcksgymnasiet","guid":"219254f7-917c-472e-ac23-6982156c6164","settings":{"activateViewer":true}},
+"selectedSignatures":{"signature":"NA17A"},"domain":"harryda.skola24.se"});
+
+document.getElementById("schema").width = 1000;
+document.getElementById("schema").height = 1000;
+
+xhr.send(data);
+
+var json = JSON.parse(xhr.responseText);
+//var stringJSON = JSON.stringify(json)
+//console.log(json);
+
+var imgData = json
+var c = document.getElementById("schema");
+var ctx = c.getContext("2d");
+
+//NEW: ARRAY FOR IMAGE
+var timesArray = [];
+var times = {startTime:"", lesson:"", endTime:""};
+
+
+//Render image ---------
+for (var i = 0; i < imgData.data.boxList.length; i++) {
+    var x, y, width, height, fcolor, bcolor;
+
+    x = imgData.data.boxList[i].x;
+    y = imgData.data.boxList[i].y;
+    width = imgData.data.boxList[i].width;
+    height = imgData.data.boxList[i].height;
+    fcolor = imgData.data.boxList[i].fcolor;
+    bcolor = imgData.data.boxList[i].bcolor;
+    type = imgData.data.boxList[i].type;
+    id = imgData.data.boxList[i].id;
+
+    /*
+    var gradient=ctx.createLinearGradient(0,0,170,0);
+    gradient.addColorStop("0","magenta");
+    gradient.addColorStop("0.5","blue");
+    gradient.addColorStop("1.0","red");
+    ctx.strokeStyle=gradient;
+    */
+
+    ctx.fillStyle = fcolor;
+    ctx.fillStyle = bcolor;
+    if (id != 2) {
+    if (type != 3) {ctx.stroke()}
+    ctx.rect(x, y, width, height);
+    ctx.fillRect(x, y, width, height);
+    ctx.lineWidth=0;
+    }
+}
+
+// Om i är mindre än antalet datainlägg, i adderas då med 1 och koden utförs
+    for (var i = 0; i < imgData.data.textList.length; i++) {
+    //Förklara variablar med bild egenskaper
+    var x, y, width, height, text, fontsize, fcolor;
+
+    //Sparar data i variablarna
+    x = imgData.data.textList[i].x;
+    y = imgData.data.textList[i].y + 10;
+    width = imgData.data.textList[i].width;
+    height = imgData.data.textList[i].height;
+    text = imgData.data.textList[i].text;
+    fontsize = imgData.data.textList[i].fontsize;
+    fcolor = imgData.data.textList[i].fcolor;
+    id = imgData.data.textList[i].id;
+    bold = imgData.data.textList[i].bold;
+
+    if (school == "hule") {
+        if (i == 54 || i == 55 || i == 56 || i == 57 || i == 58) {y += 8}
+}
+    if (school == "tvar") {
+        if (i == 58 || i == 59 || i == 60 || i == 61 || i == 62) {y += 8}
+}
+    if (text.indexOf(":") != -1 && fontsize < 12) {
+        //IF START/END TIME
+        document.getElementById("thebug").innerHTML = "DE FUNKAR";
+    }
+
+    //Kod som genererar schema
+    ctx.font = fontsize + "px Times new roman";
+    ctx.fillStyle = fcolor;
+    ctx.fillText(text, x ,y);
+}
+}
+//Width/Height ratio: 0.77
+  </script>
+</body>
